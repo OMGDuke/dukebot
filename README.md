@@ -1,19 +1,18 @@
 # Dukebot
-A bot for discord made in js
+A bot for discord made in JS
 
-Installation
----
+### Installation
 Fork and clone this repo.
 
 Run `npm install`
 
-Creat the file `.env` in root.
+Create the file `.env` in root.
 
 Add the following lines to it.
 
 ```
-DISCORD_API_KEY = 'discordApiKey'
-WOW_API_KEY = 'wowApiKey'
+DISCORD_API_KEY = 'yourDiscordApiKey'
+WOW_API_KEY = 'yourWowApiKey'
 ```
 
 Run `node bot.js`
