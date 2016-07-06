@@ -14,22 +14,12 @@ mybot.on("message", function(message) {
   if(message.content.toUpperCase() === "!HELP") {
       mybot.sendMessage(message, "Available Commands are:\n!slap name\n!(role) (eg !alt, !member)\n!ilevel server characterName");
   } else if(commandSplit[0].toUpperCase() === "!SLAP" &&
-    commandSplit.length === 2) {
-      mybot.sendMessage(message, "Slaps " + commandSplit[1]);
+  commandSplit.length === 2) {
+    mybot.sendMessage(message, "Slaps " + commandSplit[1]);
   } else if(message.content.toUpperCase() === "!SLAP") {
     mybot.sendMessage(message, "Slaps " + message.author);
-  } else if(message.content.toUpperCase() === "!GM") {
-    classList(message, 0);
-  } else if(message.content.toUpperCase() === "!OFFICER") {
-    classList(message, 1);
-  } else if(message.content.toUpperCase() === "!VETERAN") {
-    classList(message, 2);
-  } else if(message.content.toUpperCase() === "!MEMBER") {
-    classList(message, 3);
-  } else if(message.content.toUpperCase() === "!ALT") {
-    classList(message, 4);
-  } else if(message.content.toUpperCase() === "!RECRUIT") {
-    classList(message, 5);
+  } else if(message.content.toUpperCase() in roleHash) {
+    classList(message, roleHash[message.content.toUpperCase()]);
   } else if(commandSplit[0].toUpperCase() === "!ILEVEL" &&
     commandSplit.length === 3) {
     iLevel(message, commandSplit);
@@ -58,7 +48,7 @@ function rolesToString(rank) {
 
 function createString(element, index, array) {
   roleList = roleList + 'Name: ' + element.character.name + ', Class: ' +
-  classFinder(element.character.class) + ', Level: ' +
+  playerClassHash[element.character.class] + ', Level: ' +
   element.character.level + '.\n';
 }
 
@@ -71,31 +61,28 @@ function classList(message, role) {
   mybot.sendMessage(message, roleList);
 }
 
-function classFinder(classNum) {
-  if(classNum === 1) {
-    return "Warrior";
-  } else if(classNum === 2) {
-    return "Paladin";
-  } else if(classNum === 3) {
-    return "Hunter";
-  } else if(classNum === 4) {
-    return "Rogue";
-  } else if(classNum === 5) {
-    return "Priest";
-  } else if(classNum === 6) {
-    return "Death Knight";
-  } else if(classNum === 7) {
-    return "Shaman";
-  } else if(classNum === 8) {
-    return "Mage";
-  } else if(classNum === 9) {
-    return "Warlock";
-  } else if(classNum === 10) {
-    return "Monk";
-  } else if(classNum === 11) {
-    return "Druid";
-  }
-}
+var playerClassHash = {
+  1: "Warrior",
+  2: "Paladin",
+  3: "Hunter",
+  4: "Rogue",
+  5: "Priest",
+  6: "Death Knight",
+  7: "Shaman",
+  8: "Mage",
+  9: "Warlock",
+  10: "Monk",
+  11: "Druid"
+};
+
+var roleHash = {
+  "!GM": 0,
+  "!OFFICER": 1,
+  "!VETERAN": 2,
+  "!MEMBER": 3,
+  "!SOCIAL": 4,
+  "!ALT": 5
+};
 
 function iLevel(message, commandSplit) {
   var charName = commandSplit[2];
