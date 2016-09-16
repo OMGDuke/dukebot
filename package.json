@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/OMGDuke/dukebot#readme",
   "dependencies": {
-    "discord.js": "^8.0.0",
+    "discord.js": "^9.2.0",
     "dotenv": "^2.0.0",
     "xmlhttprequest": "^1.8.0"
   }

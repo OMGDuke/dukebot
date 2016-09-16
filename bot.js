@@ -8,16 +8,21 @@ var jsonObj;
 var filteredArray = [];
 var roleList = '';
 
+console.log("Dukebot is online");
+
 mybot.on("message", function(message) {
+  console.log("Message received: " + message);
   var commandSplit = message.content.split(" ");
 
   if(message.content.toUpperCase() === "!HELP") {
-      mybot.sendMessage(message, "Available Commands are:\n!slap name\n!(role) (eg !alt, !member)\n!ilevel server characterName");
+    console.log("Help requested");
+    // message.channel.sendMessage("Available Commands are:\n!slap name\n!(role) (eg !alt, !member)\n!ilevel server characterName");
+    message.channel.sendMessage("Available Commands are:\n!slap name\n!ilevel server characterName");
   } else if(commandSplit[0].toUpperCase() === "!SLAP" &&
   commandSplit.length === 2) {
-    mybot.sendMessage(message, "Slaps " + commandSplit[1]);
+    message.channel.sendMessage("Slaps " + commandSplit[1]);
   } else if(message.content.toUpperCase() === "!SLAP") {
-    mybot.sendMessage(message, "Slaps " + message.author);
+    message.channel.sendMessage("Slaps " + message.author);
   } else if(message.content.toUpperCase() in roleHash) {
     classList(message, roleHash[message.content.toUpperCase()]);
   } else if(commandSplit[0].toUpperCase() === "!ILEVEL" &&
@@ -58,7 +63,7 @@ function classList(message, role) {
   apiRequest(orUrl);
   rolesToString(role);
   console.log(roleList);
-  mybot.sendMessage(message, roleList);
+  message.channel.sendMessage(roleList);
 }
 
 var playerClassHash = {
@@ -91,8 +96,8 @@ function iLevel(message, commandSplit) {
   '/' + encodeURI(charName) +
   '?fields=items&locale=en_GB&apikey=' + process.env.WOW_API_KEY;
   apiRequest(gearUrl);
-  mybot.sendMessage(message, jsonObj.name +'\'s iLevel is: ' +
+  message.channel.sendMessage(jsonObj.name +'\'s iLevel is: ' +
   JSON.stringify(jsonObj.items.averageItemLevelEquipped));
 }
 
-mybot.loginWithToken(process.env.DISCORD_API_KEY);
+mybot.login(process.env.DISCORD_API_KEY);
