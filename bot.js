@@ -16,8 +16,7 @@ mybot.on("message", function(message) {
 
   if(message.content.toUpperCase() === "!HELP") {
     console.log("Help requested");
-    // message.channel.sendMessage("Available Commands are:\n!slap name\n!(role) (eg !alt, !member)\n!ilevel server characterName");
-    message.channel.sendMessage("Available Commands are:\n!slap name\n!ilevel server characterName");
+    message.channel.sendMessage("Available Commands are:\n!slap name\n!(role) (eg !rank1, !rank5)\n!ilevel server characterName");
   } else if(commandSplit[0].toUpperCase() === "!SLAP" &&
   commandSplit.length === 2) {
     message.channel.sendMessage("Slaps " + commandSplit[1]);
@@ -77,16 +76,21 @@ var playerClassHash = {
   8: "Mage",
   9: "Warlock",
   10: "Monk",
-  11: "Druid"
+  11: "Druid",
+  12: "Demon Hunter"
 };
 
 var roleHash = {
-  "!GM": 0,
-  "!OFFICER": 1,
-  "!VETERAN": 2,
-  "!MEMBER": 3,
-  "!SOCIAL": 4,
-  "!ALT": 5
+  "!RANK1": 0,
+  "!RANK2": 1,
+  "!RANK3": 2,
+  "!RANK4": 3,
+  "!RANK5": 4,
+  "!RANK6": 5,
+  "!RANK7": 6,
+  "!RANK8": 7,
+  "!RANK9": 8
+
 };
 
 function iLevel(message, commandSplit) {
