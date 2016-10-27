@@ -35,7 +35,6 @@ function apiRequest(url) {
   xmlHttp.open( "GET", url, false ); // false for synchronous request
   xmlHttp.send( null );
   jsonObj = JSON.parse(xmlHttp.responseText);
-  console.log(xmlHttp.responseText);
 }
 
 function roleFinder(rank) {
@@ -101,16 +100,13 @@ function iLevel(message, commandSplit) {
   '/' + encodeURI(charName) +
   '?fields=items&locale=en_GB&apikey=' + process.env.WOW_API_KEY;
   apiRequest(gearUrl);
-  if (handleApiError) {
-    message.channel.sendMessage(jsonObj.reason);
-  } else {
+  try {
     message.channel.sendMessage(jsonObj.name +'\'s iLevel is: ' +
-    JSON.stringify(jsonObj.items.averageItemLevelEquipped));  
+    JSON.stringify(jsonObj.items.averageItemLevelEquipped));
   }
-}
-
-function handleApiError() {
-  'reason' in jsonObj;
+  catch(err) {
+    message.channel.sendMessage(jsonObj.reason);
+  }
 }
 
 mybot.login(process.env.DISCORD_API_KEY);
