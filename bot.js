@@ -16,7 +16,7 @@ mybot.on("message", function(message) {
 
   if(message.content.toUpperCase() === "!HELP") {
     console.log("Help requested");
-    message.channel.sendMessage("Available Commands are:\n!slap name\n!(role) (eg !rank1, !rank5)\n!ilevel server characterName");
+    message.channel.sendMessage("Available Commands are:\n!slap name\n!(role) (eg !rank1, !rank5)\n!ilevel server characterName\n!deaths server characterName");
   } else if(commandSplit[0].toUpperCase() === "!SLAP" &&
   commandSplit.length === 2) {
     message.channel.sendMessage("Slaps " + commandSplit[1]);
@@ -27,6 +27,9 @@ mybot.on("message", function(message) {
   } else if(commandSplit[0].toUpperCase() === "!ILEVEL" &&
     commandSplit.length === 3) {
     iLevel(message, commandSplit);
+  } else if(commandSplit[0].toUpperCase() === "!DEATHS" &&
+    commandSplit.length === 3) {
+    deathCount(message, commandSplit);
   }
 });
 
@@ -107,6 +110,28 @@ function iLevel(message, commandSplit) {
   catch(err) {
     message.channel.sendMessage(jsonObj.reason);
   }
+}
+
+function deathCount(message, commandSplit) {
+  var charName = commandSplit[2];
+  var serverName = commandSplit[1];
+  var statUrl = 'https://eu.api.battle.net/wow/character/' + serverName +
+  '/' + encodeURI(charName) +
+  '?fields=statistics&locale=en_GB&apikey=' + process.env.WOW_API_KEY;
+  apiRequest(statUrl);
+  try {
+    message.channel.sendMessage(jsonObj.name +' has died ' + findDeaths() + " time(s)");
+  }
+  catch(err) {
+    message.channel.sendMessage(jsonObj.reason);
+  }
+}
+
+function findDeaths() {
+  deaths = jsonObj.statistics.subCategories.filter(function(obj) {
+    return obj.name === "Deaths";
+  })
+  return deaths[0].statistics[0].quantity
 }
 
 mybot.login(process.env.DISCORD_API_KEY);
